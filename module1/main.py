@@ -35,6 +35,9 @@ app = FastAPI(
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "message": "Module 1 is running"}
+@app.get("/")
+async def root():
+    return {"message": "Rayeva AI Systems - Module 1 is running", "docs": "/docs"}
 
 
 # Main endpoint - Generate categories
