@@ -3,8 +3,8 @@ import time
 import json
 from sqlalchemy.orm import Session
 from groq import Groq
-from config import get_settings
-from models import Product, AILog
+from module4.config import get_settings
+from module4.models import Product, AILog
 
 settings = get_settings()
 client = Groq(api_key=settings.groq_api_key)

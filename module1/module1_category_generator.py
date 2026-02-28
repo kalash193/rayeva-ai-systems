@@ -3,9 +3,9 @@ import json
 import time
 from sqlalchemy.orm import Session
 from groq import Groq
-from config import get_settings
-from models import Product, AILog
-from schemas import CategoryGeneratorResponse, SustainabilityFilter
+from module1.config import get_settings
+from module1.models import Product, AILog
+from module1.schemas import CategoryGeneratorResponse, SustainabilityFilter
 
 settings = get_settings()
 client = Groq(api_key=settings.groq_api_key)

@@ -1,9 +1,8 @@
 """Database setup - create connection and session."""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from config import get_settings
-from models import Base
-
+from module1.config import get_settings
+from module1.models import Base
 settings = get_settings()
 
 # Create engine (connection to database)
