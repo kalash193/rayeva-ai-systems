@@ -1,23 +1,42 @@
 """Combined FastAPI app - Module 1 + Module 4."""
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Create main app
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        from module1.database import init_db as init_db1
+        init_db1()
+        logger.info("✅ Module 1 DB initialized")
+    except Exception as e:
+        logger.error(f"Module 1 DB init failed: {e}")
+    try:
+        from module4.database import init_db as init_db4
+        init_db4()
+        logger.info("✅ Module 4 DB initialized")
+    except Exception as e:
+        logger.error(f"Module 4 DB init failed: {e}")
+    yield
+
+
 app = FastAPI(
     title="Rayeva AI Systems",
     description="Module 1 (Categories) + Module 4 (WhatsApp Bot)",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
-# Health check
+
 @app.get("/health")
 async def health():
     return {"status": "healthy", "message": "Rayeva AI Systems running"}
 
-# Root
+
 @app.get("/")
 async def root():
     return {
@@ -29,28 +48,40 @@ async def root():
         "docs": "/docs"
     }
 
-# Module 1 - Import and include routes
+
 try:
     from module1.main import app as module1_app
-    
-    # Get Module 1 routes
     for route in module1_app.routes:
-        if route.path not in ["/health", "/"]:
-            app.routes.append(route)
-    
+        if hasattr(route, 'path') and route.path not in ["/health", "/", "/openapi.json", "/docs", "/redoc", "/docs/oauth2-redirect"]:
+            app.add_api_route(
+                path=route.path,
+                endpoint=route.endpoint,
+                methods=list(route.methods) if route.methods else ["GET"],
+                tags=["Module 1"],
+                summary=getattr(route, 'summary', None),
+                response_model=getattr(route, 'response_model', None),
+            )
     logger.info("✅ Module 1 loaded")
 except Exception as e:
+    import traceback
     logger.error(f"❌ Module 1 failed: {e}")
+    logger.error(traceback.format_exc())
 
-# Module 4 - Import and include routes
+
 try:
     from module4.main import app as module4_app
-    
-    # Get Module 4 routes
     for route in module4_app.routes:
-        if route.path not in ["/health"]:
-            app.routes.append(route)
-    
+        if hasattr(route, 'path') and route.path not in ["/health", "/", "/openapi.json", "/docs", "/redoc", "/docs/oauth2-redirect"]:
+            app.add_api_route(
+                path=route.path,
+                endpoint=route.endpoint,
+                methods=list(route.methods) if route.methods else ["GET"],
+                tags=["Module 4 - WhatsApp"],
+                summary=getattr(route, 'summary', None),
+                response_model=getattr(route, 'response_model', None),
+            )
     logger.info("✅ Module 4 loaded")
 except Exception as e:
-    logger.error(f"❌ Module 4 failed: {e}")#force redeploy 
+    import traceback
+    logger.error(f"❌ Module 4 failed: {e}")
+    logger.error(traceback.format_exc())
