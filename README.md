@@ -1,4 +1,11 @@
-# Rayeva AI Systems — Full Stack / AI Intern Assignment
+# 🚀 Rayeva AI Systems
+
+🔗 Live Demo (Swagger Docs):  
+https://rayeva-ai-systems.onrender.com/docs
+
+AI-powered backend system with:
+- Module 1 — AI Product Categorization
+- Module 4 — AI WhatsApp Support Bot# Rayeva AI Systems — Full Stack / AI Intern Assignment
 
 AI-powered modules for sustainable commerce built with FastAPI, Groq AI (LLaMA 3.3 70B), and SQLite.
 
