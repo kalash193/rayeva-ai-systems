@@ -2,10 +2,10 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db, init_db
-from schemas import WhatsAppMessageRequest, WhatsAppMessageResponse
-from module4_whatsapp_bot import handle_whatsapp_message
-from models import WhatsAppConversation
+from module4.database import get_db, init_db
+from module4.schemas import WhatsAppMessageRequest, WhatsAppMessageResponse
+from module4.module4_whatsapp_bot import handle_whatsapp_message
+from module4.models import WhatsAppConversation
 import logging
 
 logging.basicConfig(level=logging.INFO)
