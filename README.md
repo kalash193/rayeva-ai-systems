@@ -45,6 +45,26 @@ Automatically categorizes products, generates SEO tags, and suggests sustainabil
 
 ### Module 4: AI WhatsApp Support Bot
 Handles customer support messages, answers product queries using real database data, explains return policy, and escalates refund/complaint issues.
+### 🔹 Example API Request (cURL)
+
+curl -X POST "https://rayeva-ai-systems.onrender.com/module4/chat" \
+-H "Content-Type: application/json" \
+-d '{
+  "message": "Where is my order?"
+}'
+### 🔹 Example Response
+
+{
+  "intent": "order_status",
+  "response": "Sure! Please provide your Order ID so I can check the status for you."
+}
+### 🔹 Escalation Handling
+
+If the user message is unrelated or complex, the AI responds:
+
+"I'm forwarding your request to a human support representative."
+
+This ensures safe and controlled AI behavior.
 
 **Endpoints:**
 - `POST /api/v4/whatsapp/message` — Send a message, get AI response
